@@ -1,4 +1,4 @@
-package com.mygdx.game.components;
+package com.mygdx.game.ashley.components;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -8,4 +8,12 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
  */
 public class RenderComponent implements Component{
     TextureRegion view;
+
+    public RenderComponent(TextureRegion view) {
+        this.view = view;
+    }
+
+    public TextureRegion getView() {
+        return view;
+    }
 }
