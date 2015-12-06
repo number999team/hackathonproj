@@ -28,7 +28,7 @@ public class EntityManager {
 
         Entity hentity = new Entity();
         hentity.add(new PositionComponent(new Vector2(10f, 10f)));
-        hentity.add(new MoveComponent(new Vector2(), 20, new Vector2(10f, 10f)));
+        hentity.add(new MoveComponent(new Vector2(10f,10f), 20, new Vector2(10f, 10f)));
         hentity.add(new RenderComponent(new TextureRegion(new Texture(Gdx.files.internal("Boss.png")), 64, 64)));
         engine.addEntity(hentity);
 

@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector2;
  */
 public class MoveComponent implements Component{
 
-    private Vector2 prevPosition = new Vector2(0, 0);
+    private Vector2 prevPosition;
     private Vector2 target;
     private Vector2 direction = new Vector2();
     private float maxSpeed;

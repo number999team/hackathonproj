@@ -44,13 +44,13 @@ public class MovementSystem extends EntitySystem{
                     | (Math.max(prevPos.y, curPos.y) >= target.y && Math.min(prevPos.y, curPos.y) <= target.y)){
                 curPos.set(target);
             } else {
-                direction.set(target.x, target.y);
+                move.getPrevPosition().set(curPos);
+                direction.set(target);
                 direction.sub(curPos);
                 direction.setLength(move.getMaxSpeed());
                 position.getPosition().add(move.getDirection().scl(delta));
                 move.getDirection().scl(1 / delta);
             }
-            move.getPrevPosition().set(curPos);
         }
 
     }
