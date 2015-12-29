@@ -5,6 +5,8 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 
 import com.mygdx.game.ashley.components.PositionComponent;
@@ -17,8 +19,14 @@ import com.mygdx.game.ashley.core.ComponentMappers;
 public class MovementSystem extends EntitySystem{
 
     private ImmutableArray<Entity> entities;
+    private Entity hero;
+    private OrthographicCamera camera;
+    private OrthogonalTiledMapRenderer mapRenderer;
 
-    public MovementSystem() {
+    public MovementSystem(Entity hero, OrthographicCamera camera, OrthogonalTiledMapRenderer mapRenderer) {
+        this.hero = hero;
+        this.camera = camera;
+        this.mapRenderer = mapRenderer;
     }
 
     @Override
@@ -52,6 +60,14 @@ public class MovementSystem extends EntitySystem{
                 move.getDirection().scl(1 / delta);
             }
         }
+        updateCamera();
+    }
 
+    private void updateCamera(){
+        camera.position.set(ComponentMappers.position.get(hero).getPosition().x,
+                ComponentMappers.position.get(hero).getPosition().y, 0);
+        camera.update();
+        //maybe should be there
+        mapRenderer.setView(camera);
     }
 }

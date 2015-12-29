@@ -19,45 +19,50 @@ import com.mygdx.game.ashley.systems.RenderSystem;
  */
 public class EntityManager {
 
+    public static final float HERO_HEIGHT = 4;
+    public static final float HERO_WIDTH = 6;
+
     Engine engine = new Engine();
 
     public EntityManager(OrthogonalTiledMapRenderer mapRenderer, OrthographicCamera camera){
 
-        engine.addSystem(new MovementSystem());
-        engine.addSystem(new RenderSystem(mapRenderer, camera));
+        Entity heroEntity = new Entity();
+        heroEntity.add(new PositionComponent(new Vector2(10f, 10f)));
+        heroEntity.add(new MoveComponent(new Vector2(10f, 10f), 20, new Vector2(10f, 10f)));
+        heroEntity.add(new RenderComponent(new TextureRegion(new Texture(Gdx.files.internal("Boss1.png")), 64, 64)));
+        engine.addEntity(heroEntity);
+        HeroInputListener heroController =  new HeroInputListener(heroEntity, camera);
+        Gdx.input.setInputProcessor(heroController);
 
-        Entity hentity = new Entity();
-        hentity.add(new PositionComponent(new Vector2(10f, 10f)));
-        hentity.add(new MoveComponent(new Vector2(10f,10f), 20, new Vector2(10f, 10f)));
-        hentity.add(new RenderComponent(new TextureRegion(new Texture(Gdx.files.internal("Boss.png")), 64, 64)));
-        engine.addEntity(hentity);
-
-        TextureRegion monsterView = new TextureRegion(new Texture(Gdx.files.internal("People.png")), 32, 32);
+        TextureRegion monsterView = new TextureRegion(new Texture(Gdx.files.internal("Boss2.png")), 64, 64);
 
         Entity entity = new Entity();
         entity.add(new PositionComponent(new Vector2(0f, 0f)));
-        entity.add(new MoveComponent(ComponentMappers.position.get(hentity).getPosition(), 20, new Vector2(0f, 0f)));
+        entity.add(new MoveComponent(/*ComponentMappers.position.get(heroEntity).getPosition()*/new Vector2(10, 10), 20, new Vector2(0f, 0f)));
         entity.add(new RenderComponent(monsterView));
         engine.addEntity(entity);
 
 
         entity = new Entity();
         entity.add(new PositionComponent(new Vector2(40f, 40f)));
-        entity.add(new MoveComponent(ComponentMappers.position.get(hentity).getPosition(), 20, new Vector2(40f, 40f)));
+        entity.add(new MoveComponent(ComponentMappers.position.get(heroEntity).getPosition(), 20, new Vector2(40f, 40f)));
         entity.add(new RenderComponent(monsterView));
         engine.addEntity(entity);
 
         entity = new Entity();
         entity.add(new PositionComponent(new Vector2(0f, 40f)));
-        entity.add(new MoveComponent(ComponentMappers.position.get(hentity).getPosition(), 20, new Vector2(0f, 40f)));
+        entity.add(new MoveComponent(ComponentMappers.position.get(heroEntity).getPosition(), 20, new Vector2(0f, 40f)));
         entity.add(new RenderComponent(monsterView));
         engine.addEntity(entity);
 
         entity = new Entity();
         entity.add(new PositionComponent(new Vector2(80f, 0f)));
-        entity.add(new MoveComponent(ComponentMappers.position.get(hentity).getPosition(), 20, new Vector2(80f, 0f)));
+        entity.add(new MoveComponent(ComponentMappers.position.get(heroEntity).getPosition(), 20, new Vector2(80f, 0f)));
         entity.add(new RenderComponent(monsterView));
         engine.addEntity(entity);
+
+        engine.addSystem(new MovementSystem(heroEntity, camera, mapRenderer));
+        engine.addSystem(new RenderSystem(mapRenderer, camera));
     }
 
     public void update(float delta){
