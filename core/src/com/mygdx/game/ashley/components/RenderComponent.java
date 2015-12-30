@@ -16,4 +16,8 @@ public class RenderComponent implements Component{
     public TextureRegion getView() {
         return view;
     }
+
+    public void setView(TextureRegion view) {
+        this.view = view;
+    }
 }
